@@ -8,11 +8,14 @@ import { errorHandler } from "./middleware/errorHandler";
 import postRouter from "./routes/post.route";
 import commentRouter from "./routes/comment.route";
 import notificationRouter from "./routes/notification.route";
+import { arcjetMiddleware } from "./middleware/arcjet.middleware";
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 app.use(clerkMiddleware());
+app.use(arcjetMiddleware);
+app.get("/", (req, res) => res.send("Hello from server!"));
 app.use("/api/users", userRouter);
 app.use("/api/posts", postRouter);
 app.use("/api/comments", commentRouter);
