@@ -21,9 +21,12 @@ app.use(errorHandler);
 const startServer = async (): Promise<void> => {
   try {
     await connectDB();
-    app.listen(ENV.PORT, () => {
-      console.log(`Server is running on http://localhost:${ENV.PORT}`);
-    });
+    // start the server in local mode
+    if (ENV.NODE_ENV !== "development") {
+      app.listen(ENV.PORT, () => {
+        console.log(`Server is running on port ${ENV.PORT}`);
+      });
+    }
   } catch (error: any) {
     console.log("Failed to connect to database", error.message);
     process.exit(1);
@@ -31,3 +34,5 @@ const startServer = async (): Promise<void> => {
 };
 
 startServer();
+
+export default app;
