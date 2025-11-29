@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { ENV } from "./evn";
+import { ENV } from "./evn.js";
 
 export const connectDB = async () => {
   // 0 = disconnected, 1 = connected, 2 = connecting, 3 = disconnecting

@@ -1,6 +1,6 @@
 // src/middleware/arcjet.middleware.ts
 import type { Request, Response, NextFunction } from "express";
-import { getArcjet } from "../config/arcjet";
+import aj from "../config/arcjet.js";
 
 export const arcjetMiddleware = async (
   req: Request,
@@ -8,9 +8,6 @@ export const arcjetMiddleware = async (
   next: NextFunction
 ) => {
   try {
-    // Lấy instance Arcjet (khởi tạo 1 lần, dùng lại nhiều lần)
-    const aj = await getArcjet();
-
     const decision = await aj.protect(req, {
       requested: 1,
     });
@@ -36,7 +33,7 @@ export const arcjetMiddleware = async (
 
     if (
       decision.results.some(
-        (result: any) => result.reason.isBot() && result.reason.isSpoofed()
+        (result) => result.reason.isBot() && result.reason.isSpoofed()
       )
     ) {
       return res.status(403).json({

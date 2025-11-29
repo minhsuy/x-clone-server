@@ -10,7 +10,6 @@ import commentRouter from "./routes/comment.route.js";
 import notificationRouter from "./routes/notification.route.js";
 import { arcjetMiddleware } from "./middleware/arcjet.middleware.js";
 const app = express();
-
 app.use(cors());
 app.use(express.json());
 app.use(clerkMiddleware());
@@ -21,21 +20,20 @@ app.use("/api/posts", postRouter);
 app.use("/api/comments", commentRouter);
 app.use("/api/notifications", notificationRouter);
 app.use(errorHandler);
-const startServer = async (): Promise<void> => {
-  try {
-    await connectDB();
-    // start the server in local mode
-    if (ENV.NODE_ENV !== "development") {
-      app.listen(ENV.PORT, () => {
-        console.log(`Server is running on port ${ENV.PORT}`);
-      });
+const startServer = async () => {
+    try {
+        await connectDB();
+        // start the server in local mode
+        if (ENV.NODE_ENV !== "development") {
+            app.listen(ENV.PORT, () => {
+                console.log(`Server is running on port ${ENV.PORT}`);
+            });
+        }
     }
-  } catch (error: any) {
-    console.log("Failed to connect to database", error.message);
-    process.exit(1);
-  }
+    catch (error) {
+        console.log("Failed to connect to database", error.message);
+        process.exit(1);
+    }
 };
-
 startServer();
-
 export default app;

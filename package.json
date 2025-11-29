@@ -1,17 +1,14 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "main": "dist/server.js",
+  "type": "module",
   "scripts": {
     "build": "tsc",
+    "watch": "tsc -w",
     "start": "node dist/server.js",
-    "dev": "nodemon --watch src --ext ts,json --exec ts-node src/server.ts",
-    "lint": "eslint 'src/**/*.ts'"
+    "dev": "nodemon dist/server.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "devDependencies": {
     "@types/express": "^5.0.5",
     "@types/multer": "^2.0.0",
@@ -19,9 +16,7 @@
     "dotenv": "^17.2.3",
     "eslint": "^9.39.1",
     "express": "^5.1.0",
-    "install": "^0.13.0",
     "nodemon": "^3.1.11",
-    "npm": "^11.6.4",
     "prettier": "^3.6.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"

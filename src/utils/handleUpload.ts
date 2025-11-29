@@ -1,4 +1,4 @@
-import cloudinary from "../config/cloudinary";
+import cloudinary from "../config/cloudinary.js";
 
 export const uploadImageToCloudinary = async (
   imageFile: Express.Multer.File

@@ -1,11 +1,13 @@
 import asyncHandler from "express-async-handler";
-import Post from "../models/post.model";
+import Post from "../models/post.model.js";
 import { Request, Response } from "express";
-import User from "../models/user.model";
+import User from "../models/user.model.js";
 import { getAuth } from "@clerk/express";
-import { uploadImageToCloudinary } from "../utils/handleUpload";
-import Notification, { NotificationType } from "../models/notification.model";
-import Comment from "../models/comment.model";
+import { uploadImageToCloudinary } from "../utils/handleUpload.js";
+import Notification, {
+  NotificationType,
+} from "../models/notification.model.js";
+import Comment from "../models/comment.model.js";
 export const getPosts = asyncHandler(
   async (req: Request, res: Response): Promise<any> => {
     const posts = await Post.find()
