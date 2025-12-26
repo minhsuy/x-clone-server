@@ -1,4 +1,5 @@
 import express from "express";
+import "dotenv/config";
 import { ENV } from "./config/evn.js";
 import { connectDB } from "./config/db.js";
 import { clerkMiddleware } from "@clerk/express";
@@ -9,9 +10,16 @@ import postRouter from "./routes/post.route.js";
 import commentRouter from "./routes/comment.route.js";
 import notificationRouter from "./routes/notification.route.js";
 import { arcjetMiddleware } from "./middleware/arcjet.middleware.js";
+import { GoogleGenAI } from "@google/genai";
+
 const app = express();
 
-app.use(cors());
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 app.use(express.json());
 app.use(clerkMiddleware());
 app.use(arcjetMiddleware);
@@ -20,6 +28,27 @@ app.use("/api/users", userRouter);
 app.use("/api/posts", postRouter);
 app.use("/api/comments", commentRouter);
 app.use("/api/notifications", notificationRouter);
+app.post("/chat", async (req, res) => {
+  try {
+    const { message } = req.body;
+    if (!message || typeof message !== "string") {
+      return res.status(400).json({ error: "message is required (string)" });
+    }
+
+    const response = await ai.models.generateContent({
+      model: "gemini-2.5-flash",
+      contents: message,
+    });
+
+    res.json({ text: response.text ?? "" });
+  } catch (err: any) {
+    console.error(err);
+    res.status(500).json({
+      error: "gemini_error",
+      message: err?.message ?? String(err),
+    });
+  }
+});
 app.use(errorHandler);
 const startServer = async (): Promise<void> => {
   try {
