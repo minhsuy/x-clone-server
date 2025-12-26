@@ -15,7 +15,7 @@ import { GoogleGenAI } from "@google/genai";
 const app = express();
 
 const ai = new GoogleGenAI({
-  apiKey: "AIzaSyDPNXjVYe-C8Gwu-SaH0AVeXSqkss6VWDc",
+  apiKey: ENV.GEMINI_API_KEY,
 });
 app.use(
   cors({
